@@ -1,0 +1,19 @@
+.container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.even {
+    color: rgb(76, 73, 133)
+        /* color: rgb(174, 113, 21) */
+}
+
+.odd {
+    color: rgb(219, 23, 117);
+}
+
+.char {
+    color: #0fa170;
+}
