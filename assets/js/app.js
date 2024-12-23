@@ -8,7 +8,10 @@ const onCheck = ()=>{
   if(!isNaN(checkValue))
     {
     
-    result.textContent = `${checkValue} is ${checkValue % 2 === 0 ? "Even" : "Odd"};`
+    result.textContent = `${checkValue} is ${checkValue % 2 === 0 ? "Even" : "Odd"}`;
+    result.style.fontWeight = 'bold'
+    result.style.fontFamily = 'Tahoma'
+    
     // numbers.value = '';
   }
   else

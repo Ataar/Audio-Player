@@ -5,6 +5,9 @@
     transform: translate(-50%, -50%);
 }
 
+
+
+
 .even {
     color: rgb(76, 73, 133)
         /* color: rgb(174, 113, 21) */
@@ -16,4 +19,13 @@
 
 .char {
     color: #0fa170;
+}
+
+@media (max-width: 576px) {
+
+    .container {
+        margin: 10px;
+        width: 85%;
+        text-align: center;
+    }
 }
