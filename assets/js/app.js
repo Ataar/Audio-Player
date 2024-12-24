@@ -1,24 +1,24 @@
-let numbers = document.getElementById('numbers')
-let result = document.getElementById('result')
-
-
-
-const onCheck = ()=>{
-  const checkValue = parseInt (numbers.value,10)
-  if(!isNaN(checkValue))
-    {
-    
-    result.textContent = `${checkValue} is ${checkValue % 2 === 0 ? "Even" : "Odd"}`;
-    result.style.fontWeight = 'bold'
-    result.style.fontFamily = 'Tahoma'
-    
-    // numbers.value = '';
+const clickBtn = document.getElementById('clickBtn')
+const calculateAverage = () => {
+const distance = document.getElementById('distance').value;
+const fuel = document.getElementById('fuel').value;
+const result = document.getElementById('result');
+  // Check if the inputs are valid numbers
+  if (isNaN(distance) || isNaN(fuel) || distance <= 0 || fuel <= 0) {
+      result.textContent = "Please enter valid values first.";
+      return;
   }
-  else
-  {
-    result.textContent = "";
-  }
-}
+
+  // Calculate average fuel efficiency
+  const average = distance / fuel;
+  result.textContent = `Average Fuel Efficiency (km/l): ${average}`;
+  document.getElementById('distance').value = '';
+  document.getElementById('fuel').value = '';
+  
+};
 
 
-numbers.addEventListener('keyup',onCheck)
+
+// Bind the click event to the button
+clickBtn.addEventListener('click', calculateAverage);
+
