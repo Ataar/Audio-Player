@@ -5,22 +5,33 @@ body {
     align-items: center;
     height: 100vh;
     margin: 0;
-    background-color: #f4f4f4;
+    background-color: #0b0202;
 }
 
 .container {
     /* background-color: #fff; */
-    background-color: #f3f4f0;
+    /* background: linear-gradient(to right, rgb(139, 84, 84), rgb(23, 23, 18), rgb(42, 42, 95)); */
+
+    /* background-color: #eaeef1; */
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    width: 300px;
+    width: 200px;
     text-align: center;
 }
 
 h1 {
-    font-size: 22px;
-    margin-bottom: 20px;
+    font-size: 23px;
+    margin: 0 -19px;
+    width: 200px;
+    font-family: Georgia;
+    background: linear-gradient(95deg, red, orange, yellow, green, blue, rgb(61, 213, 66), rgb(209, 9, 209));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+
+
+
 }
 
 input {
@@ -55,7 +66,9 @@ p {
 @media (max-width: 576px) {
 
     h1 {
-        font-size: 22px;
+        font-size: 23px;
+        margin: 0 0 0 -17px;
+        width: 200px;
         font-family: Georgia;
         text-align: center;
     }
