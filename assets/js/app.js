@@ -1,43 +1,103 @@
-const showTable = (number) => {
-  const tableOutput = document.getElementById('tableOutput');
-  tableOutput.innerHTML = ''; // Clear previous table
+// List of audio files
+const audioFiles = [
+        { audio: "1.mp3" },
+        { audio: "2.mp3" },
+        { audio: "5.mp3" },
+        { audio: "echo-of-tomorow-271362.mp3" },
+        { audio: "motivational-background-corporate-city-273359.mp3" },
+        { audio: "4.mp3" },
+        { audio: "3.mp3" },
+        { audio:'6.mp3'},
+        { audio:'7.mp3'},
+        { audio:'9.mp3'},
+        { audio:'10.mp3'},
+        { audio:'11.mp3'},
+];
 
-  if (isNaN(number) || number <= 0) {
-      const errorParagraph = document.createElement('p');
-      errorParagraph.textContent = 'Please enter a number !';
-      errorParagraph.className = 'red';
-      errorParagraph.style.marginLeft ='-20px';
-      errorParagraph.style.width='200px'
-      errorParagraph.style.color='red'
-      tableOutput.appendChild(errorParagraph);
-      return;
-  }
+const boxContainer = document.getElementById('box-container');
+audioFiles.forEach((audioSource, index) => {
+const wrapper = document.createElement('div');
+wrapper.style.textAlign = 'center'; 
+wrapper.style.marginBottom = '20px'; 
 
-  const table = document.createElement('table');
-  table.style.borderCollapse = 'collapse';
-  table.style.marginTop = '10px';
-  table.style.width = '100%';
+   
+    const box = document.createElement('div');
+    box.classList.add('box');
+    box.style.backgroundColor = ["lightgray", "lightcoral", 'lightgreen', "lightblue", "GreenYellow",'#490a0a','pink','gray'
+   ,'#583d6c','#bb5f91','#141313','#11b072'][index] || 'lightgray';
+    box.style.width = '100px';
+    box.style.height = '100px'; 
+    box.style.margin = '0 auto';
+    box.style.display = 'flex';
+    box.style.justifyContent = 'center';
+    box.style.alignItems = 'center';
 
-  for (let i = 1; i <= 10; i++) {
-      const row = document.createElement('tr');
+    
+    const icon = document.createElement('i');
+    icon.classList.add('fa-solid', 'fa-circle-play');
+    icon.style.fontSize = '32px';
+    icon.style.color = 'white';
+    icon.style.backgroundColor = 'black';
+    icon.style.borderRadius = '50px';
+    box.appendChild(icon);
 
-      const cell = document.createElement('td');
-      cell.textContent = `${number} x ${i} = ${number * i}`;
-      cell.style.border = '1px solid #000';
-      cell.style.padding = '8px';
-      cell.style.textAlign = 'center';
-      cell.style.fontFamily = 'Tahoma';
-      cell.style.fontSize = '20px';
-      cell.style.color='white'
+    box.addEventListener('click', () => {
+        toggleMusic(audioSource.audio, icon);
+    });
 
-      row.appendChild(cell);
-      table.appendChild(row);
-  }
+    const downloadButton = document.createElement('a');
+    downloadButton.classList.add('downloadBtn')
+    downloadButton.href = audioSource.audio;
+    downloadButton.download = audioSource.audio.split('/').pop(); 
+    downloadButton.innerText = 'Download';
+    downloadButton.style.display = 'inline-block';
+    downloadButton.style.marginTop = '15px';
+    downloadButton.style.color = 'white';
+//    downloadButton.style.background = 'linear-gradient(to right,rgb(234, 178, 66),rgb(52, 5, 57)';
+    downloadButton.style.padding = '5px 10px';
+    downloadButton.style.borderRadius = '5px';
+    downloadButton.style.textDecoration = 'none';
+    downloadButton.style.fontFamily  = 'Elephant'
 
-  tableOutput.appendChild(table);
-};
+    wrapper.appendChild(box);
+    wrapper.appendChild(downloadButton);
 
-document.getElementById('generateTable').addEventListener('click', () => {
-  const userInput = parseInt(document.getElementById('numberInput').value, 10);
-  showTable(userInput);
+    boxContainer.appendChild(wrapper);
 });
+
+let currentPlayingAudio = null;
+let currentIcon = null;
+
+const toggleMusic = (audioPath, icon) => {
+    if (currentPlayingAudio && currentPlayingAudio.src !== new URL(audioPath, document.baseURI).href) {
+        currentPlayingAudio.pause();
+        if (currentIcon) {
+            currentIcon.classList.remove('fa-circle-pause');
+            currentIcon.classList.add('fa-circle-play');
+        }
+    }
+
+    let audioElement = currentPlayingAudio;
+
+    if (!audioElement || audioElement.src !== new URL(audioPath, document.baseURI).href) {
+        audioElement = new Audio(audioPath);
+        currentPlayingAudio = audioElement;
+        currentIcon = icon;
+        audioElement.addEventListener('ended', () => {
+            icon.classList.remove('fa-circle-pause');
+            icon.classList.add('fa-circle-play');
+        });
+    }
+
+    if (!audioElement.paused) {
+        audioElement.pause();
+        icon.classList.remove('fa-circle-pause');
+        icon.classList.add('fa-circle-play');
+    } else {
+        audioElement.play().catch(error => {
+            console.error("Error playing audio:", error);
+        });
+        icon.classList.remove('fa-circle-play');
+        icon.classList.add('fa-circle-pause');
+    }
+};
