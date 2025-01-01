@@ -1,3 +1,6 @@
+let lastAnnouncedMinute = null;
+let isActivated = false; // Track if user activation occurred
+
 const updateClock = () => {
     const clock = document.getElementById('clock');
     const now = new Date();
@@ -24,15 +27,17 @@ const updateClock = () => {
         ${day}/${month}/${year}
     `;
 
-    // Announce time at the start of each minute
-    if (seconds === "00") {
+    // Announce time only at the start of a new minute if activated
+    const currentMinute = `${hours}:${minutes} ${amPm}`;
+    if (isActivated && seconds === "00" && lastAnnouncedMinute !== currentMinute) {
+        lastAnnouncedMinute = currentMinute;
         announceTimeInHindi(hours, minutes, amPm, day, month, year);
     }
 };
 
 const announceTimeInHindi = (hours, minutes, amPm, day, month, year) => {
     const amPmHindi = amPm === "AM" ? "सुबह के " : "शाम के ";
-    const message = `अभी वक्त हुआ है देखो ${hours}:${minutes} ${amPmHindi}.और आज की तारीख है ${day}/${month}/${year}.अपडेट टाइम सुनने के लिए 1 मिनट इंतजार करें`;
+    const message = `अभी वक्त हुआ है देखो ${hours}:${minutes} ${amPmHindi}. और आज की तारीख है ${day}/${month}/${year}. अपडेट टाइम सुनने के लिए 1 मिनट इंतजार करें।`;
     const speech = new SpeechSynthesisUtterance(message);
 
     const voices = window.speechSynthesis.getVoices();
@@ -44,17 +49,28 @@ const announceTimeInHindi = (hours, minutes, amPm, day, month, year) => {
         console.error("Hindi voice not found. Using default voice.");
     }
 
-    speech.lang = 'hi-IN'; // Set the language to Hindi
-    speech.rate = 1; // Normal speed
-    speech.pitch = 1; // Normal pitch
+    // Set speech properties
+    speech.lang = 'hi-IN';
+    speech.rate = 1;
+    speech.pitch = 1;
+
+    // Speak the message
     window.speechSynthesis.speak(speech);
 };
+
+const startClock = () => {
+    setInterval(updateClock, 1000); // Update the clock every second
+    updateClock(); // Ensure the clock updates immediately on load
+};
+
+// Add event listener for user activation
+document.getElementById('startButton').addEventListener('click', () => {
+    isActivated = true; // Allow announcements after activation
+    console.log("Speech synthesis activated.");
+    startClock();
+});
 
 // Ensure voices are loaded
 window.speechSynthesis.onvoiceschanged = () => {
     console.log("Voices loaded.");
-    setInterval(updateClock, 1000);
-    updateClock();
 };
-
-
