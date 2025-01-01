@@ -5,10 +5,8 @@ body {
     height: 100vh;
     margin: 0;
     font-family: Arial, sans-serif;
-    /* background: linear-gradient(135deg, #460447, #00f2fe); */
     background: linear-gradient(135deg, #0b020b, #040404);
     color: white;
-
 }
 
 .clock {
@@ -25,16 +23,80 @@ body {
     transform: translate(-50%, -50%);
 }
 
-.am-pm {
-    font-size: 0.5em;
-    /* Makes AM/PM half the size of the clock text */
-    vertical-align: top;
-    /* Aligns AM/PM with the top of the clock text */
+@media(min-width: 320px) and (max-width: 768px) {
+    .clock {
+
+        font-size: 28px;
+        padding: 10px
+    }
+
+    .am-pm {
+        font-size: 0.4em;
+        vertical-align: top;
+
+    }
 }
 
-@media(min-width : 320px) and (max-width:425px) {
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* body { */
+/* display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    font-family: Arial, sans-serif; */
+/* background: linear-gradient(135deg, #460447, #00f2fe); */
+/* background: linear-gradient(135deg, #0b020b, #040404);
+    color: white; */
+
+/* } */
+
+/* .clock {
+    font-size: 60px;
+    font-weight: bold;
+    background: rgba(0, 0, 0, 0.3);
+    padding: 20px 40px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    text-align: center;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+} */
+
+/* .am-pm { */
+/* font-size: 0.5em; */
+/* Makes AM/PM half the size of the clock text */
+/* vertical-align: top; */
+/* Aligns AM/PM with the top of the clock text */
+/* } */
+
+/* @media(min-width : 320px) and (max-width:425px) {
     .clock {
         font-size: 25px;
         padding: 10px
     }
-}
+} */

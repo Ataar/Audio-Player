@@ -24,30 +24,15 @@ const updateClock = () => {
         ${day}/${month}/${year}
     `;
 
-    // Announce time and date every 15 minutes
-    if (seconds === "00" && parseInt(minutes) % 15 === 0) {
-        const currentQuarter = `${hours}:${minutes}`;
-        const lastAnnouncedQuarter = localStorage.getItem('lastAnnouncedQuarter');
-
-        if (lastAnnouncedQuarter !== currentQuarter) {
-            localStorage.setItem('lastAnnouncedQuarter', currentQuarter);
-            playRingtone(() => announceTimeInHindi(hours, minutes, amPm, day, month, year));
-        }
+    // Announce time at the start of each minute
+    if (seconds === "00") {
+        announceTimeInHindi(hours, minutes, amPm, day, month, year);
     }
-};
-
-const playRingtone = (callback) => {
-    const ringtone = new Audio('2-Digital Ringtone.mp4'); // Update the path to your uploaded ringtone file
-    ringtone.play();
-
-    ringtone.onended = () => {
-        if (callback) callback();
-    };
 };
 
 const announceTimeInHindi = (hours, minutes, amPm, day, month, year) => {
     const amPmHindi = amPm === "AM" ? "सुबह के " : "शाम के ";
-    const message = `${hours}:${minutes} ${amPmHindi} बज रहे हैं. और आज की तारीख है ${day}/${month}/${year}.`;
+    const message = `अभी वक्त हुआ है देखो ${hours}:${minutes} ${amPmHindi}.और आज की तारीख है ${day}/${month}/${year}.अपडेट टाइम सुनने के लिए 1 मिनट इंतजार करें`;
     const speech = new SpeechSynthesisUtterance(message);
 
     const voices = window.speechSynthesis.getVoices();
