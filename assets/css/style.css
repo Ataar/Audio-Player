@@ -26,20 +26,49 @@ body {
 }
 
 @media(min-width: 320px) and (max-width: 768px) {
-    .clock {
+    button#startButton {
 
-        font-size: 28px;
-        padding: 10px
+        font-size: 15px;
+        background-color: rgb(4, 52, 4);
+        color: white;
+        margin-top: 2.5rem !important
     }
 
+    .clock {
+
+        font-size: 27px;
+        padding: -2px 2px -2px 2px;
+
+    }
+
+    /* margin-bottom: 2px; */
     .am-pm {
         font-size: 0.4em;
         vertical-align: top;
 
     }
+
 }
 
 
+
+.col-md-4 {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    margin-top: 4rem;
+}
+
+
+button#startButton {
+    margin-top: 3rem;
+    background-color: rgb(41, 4, 43);
+    color: white;
+    border-radius: 30px;
+    margin-top: 10rem;
+
+}
 
 
 
