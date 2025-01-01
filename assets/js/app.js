@@ -24,9 +24,15 @@ const updateClock = () => {
         ${day}/${month}/${year}
     `;
 
-    // Announce time at the start of each minute
-    if (seconds === "00") {
-        playRingtone(() => announceTimeInHindi(hours, minutes, amPm, day, month, year));
+    // Announce time and date every 15 minutes
+    if (seconds === "00" && parseInt(minutes) % 15 === 0) {
+        const currentQuarter = `${hours}:${minutes}`;
+        const lastAnnouncedQuarter = localStorage.getItem('lastAnnouncedQuarter');
+
+        if (lastAnnouncedQuarter !== currentQuarter) {
+            localStorage.setItem('lastAnnouncedQuarter', currentQuarter);
+            playRingtone(() => announceTimeInHindi(hours, minutes, amPm, day, month, year));
+        }
     }
 };
 
