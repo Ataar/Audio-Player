@@ -37,7 +37,7 @@ const updateClock = () => {
 };
 
 const playRingtone = (callback) => {
-    const ringtone = new Audio('New ringtone, hindi ringtone 2020,latest ringtone 2020,Ringtones for mobile mp3,New Ringtone 2020 ,.mp4'); // Update the path to your uploaded ringtone file
+    const ringtone = new Audio('2-Digital Ringtone.mp4'); // Update the path to your uploaded ringtone file
     ringtone.play();
 
     ringtone.onended = () => {
