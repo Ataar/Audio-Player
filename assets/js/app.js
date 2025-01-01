@@ -1,41 +1,67 @@
-const isPrime = (num) => {
-  if (num <= 1) return false; 
+const updateClock = () => {
+    const clock = document.getElementById('clock');
+    const now = new Date();
 
-  for (let i = 2; i <= Math.sqrt(num); i++) { 
-      if (num % i === 0) {
-          return false; 
-      }
-  }
-  return true; 
+    // Get the time
+    let hours = now.getHours();
+    const minutes = String(now.getMinutes()).padStart(2, '0');
+    const seconds = String(now.getSeconds()).padStart(2, '0');
+
+    // Determine AM or PM
+    const amPm = hours >= 12 ? 'PM' : 'AM';
+
+    // Convert to 12-hour format
+    hours = hours % 12 || 12;
+
+    // Get the date
+    const day = String(now.getDate()).padStart(2, '0');
+    const month = String(now.getMonth() + 1).padStart(2, '0'); // Months are 0-based
+    const year = now.getFullYear();
+
+    // Display the time and date
+    clock.innerHTML = `
+        ${hours}:${minutes}:${seconds} <span class="am-pm">${amPm}</span><br>
+        ${day}/${month}/${year}
+    `;
+
+    // Announce time at the start of each minute
+    if (seconds === "00") {
+        playRingtone(() => announceTimeInHindi(hours, minutes, amPm, day, month, year));
+    }
 };
 
-const checkButton = document.getElementById("checkButton");
+const playRingtone = (callback) => {
+    const ringtone = new Audio('New ringtone, hindi ringtone 2020,latest ringtone 2020,Ringtones for mobile mp3,New Ringtone 2020 ,.mp4'); // Update the path to your uploaded ringtone file
+    ringtone.play();
 
-checkButton.addEventListener("click", () => {
-  const inputField = document.getElementById("numberInput");
-  const input = inputField.value;
-  const num = parseInt(input, 10);
+    ringtone.onended = () => {
+        if (callback) callback();
+    };
+};
 
-  if (isNaN(num)) {
-      Swal.fire({
-          title: "Error!",
-          html: "<b style = 'font-size:17px;color:red'>Please enter a valid number!</b>",
-          icon: "error",
-          timer:2000
-         
-      });
+const announceTimeInHindi = (hours, minutes, amPm, day, month, year) => {
+    const amPmHindi = amPm === "AM" ? "सुबह के " : "शाम के ";
+    const message = `${hours}:${minutes} ${amPmHindi} बज रहे हैं. और आज की तारीख है ${day}/${month}/${year}.`;
+    const speech = new SpeechSynthesisUtterance(message);
 
-      return
-      
-  }
+    const voices = window.speechSynthesis.getVoices();
+    const hindiVoice = voices.find(voice => voice.lang === 'hi-IN');
 
-  Swal.fire({
-      title: "Result",
-      html: `<b>${num} is ${isPrime(num) ? 'a prime' : 'not a prime'} number!</b>`,
-      icon: "success",
-      timer:2000
-  })
-  .then(() => {
-      inputField.value = "";
-  });
-});
+    if (hindiVoice) {
+        speech.voice = hindiVoice;
+    } else {
+        console.error("Hindi voice not found. Using default voice.");
+    }
+
+    speech.lang = 'hi-IN'; // Set the language to Hindi
+    speech.rate = 1; // Normal speed
+    speech.pitch = 1; // Normal pitch
+    window.speechSynthesis.speak(speech);
+};
+
+// Ensure voices are loaded
+window.speechSynthesis.onvoiceschanged = () => {
+    console.log("Voices loaded.");
+    setInterval(updateClock, 1000);
+    updateClock();
+};
