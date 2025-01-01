@@ -56,3 +56,5 @@ window.speechSynthesis.onvoiceschanged = () => {
     setInterval(updateClock, 1000);
     updateClock();
 };
+
+
