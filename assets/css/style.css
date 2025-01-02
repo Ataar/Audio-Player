@@ -25,30 +25,37 @@ body {
     transform: translate(-50%, -50%);
 }
 
-@media(min-width: 320px) and (max-width: 768px) {
+@media (min-width: 320px) and (max-width: 768px) {
     button#startButton {
-
         font-size: 15px;
         background-color: rgb(4, 52, 4);
         color: white;
-        margin-top: 2.5rem !important
+        margin-top: 2.5rem !important;
+        width: 76%;
+        /* Adjust the width for responsiveness */
+        display: block;
+        /* Ensures the button behaves like a block element */
+        margin-left: auto;
+        margin-right: auto;
+        text-align: center;
     }
+}
 
-    .clock {
+.clock {
 
-        font-size: 27px;
-        padding: -2px 2px -2px 2px;
-
-    }
-
-    /* margin-bottom: 2px; */
-    .am-pm {
-        font-size: 0.4em;
-        vertical-align: top;
-
-    }
+    font-size: 27px;
+    padding: -2px 2px -2px 2px;
 
 }
+
+/* margin-bottom: 2px; */
+.am-pm {
+    font-size: 0.4em;
+    vertical-align: top;
+
+}
+
+
 
 
 
