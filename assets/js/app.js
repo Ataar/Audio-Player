@@ -21,25 +21,30 @@ const updateClock = () => {
     const month = String(now.getMonth() + 1).padStart(2, '0'); // Months are 0-based
     const year = now.getFullYear();
 
+    // Get the day of the week
+    const daysOfWeek = ['रविवार', 'सोमवार', 'मंगलवार', 'बुधवार', 'गुरुवार', 'शुक्रवार', 'शनिवार'];
+    const dayOfWeek = daysOfWeek[now.getDay()]; // Get the current day of the week
+
     // Display the time and date
     clock.innerHTML = `
         ${hours}:${minutes}:${seconds} <span class="am-pm">${amPm}</span><br>
-        ${day}/${month}/${year}
+        ${dayOfWeek} ${day}/${month}/${year}
     `;
 
     // Announce time only at the start of a new minute if activated
     const currentMinute = `${hours}:${minutes} ${amPm}`;
     if (isActivated && seconds === "00" && lastAnnouncedMinute !== currentMinute) {
         lastAnnouncedMinute = currentMinute;
-        announceTimeInHindi(hours, minutes, amPm, day, month, year);
+        announceTimeInHindi(hours, minutes, amPm, day, month, year, dayOfWeek);
     }
 };
 
-const announceTimeInHindi = (hours, minutes, amPm, day, month, year) => {
+const announceTimeInHindi = (hours, minutes, amPm, day, month, year, dayOfWeek) => {
     const amPmHindi = amPm === "AM" ? "सुबह के " : "शाम के ";
-    const message = `अभी वक्त हुआ है देखो ${hours}:${minutes} ${amPmHindi}. और आज की तारीख है ${day}/${month}/${year}. अपडेट टाइम सुनने के लिए 1 मिनट इंतजार करें।`;
+    const message = `अभी वक्त हुआ है देखो ${hours}:${minutes} ${amPmHindi}. आज ${dayOfWeek} है और आज की तारीख है ${day}/${month}/${year}. आप इस नंबर पर संपर्क कर सकते हैं 7058804143. Thank You!`;
     const speech = new SpeechSynthesisUtterance(message);
 
+    // Load voices and find a Hindi voice
     const voices = window.speechSynthesis.getVoices();
     const hindiVoice = voices.find(voice => voice.lang === 'hi-IN');
 
@@ -59,8 +64,18 @@ const announceTimeInHindi = (hours, minutes, amPm, day, month, year) => {
 };
 
 const startClock = () => {
-    setInterval(updateClock, 1000); // Update the clock every second
-    updateClock(); // Ensure the clock updates immediately on load
+    // Ensure voices are loaded before starting announcements
+    if (window.speechSynthesis.getVoices().length === 0) {
+        window.speechSynthesis.onvoiceschanged = () => {
+            console.log("Voices loaded.");
+            setInterval(updateClock, 1000); // Update the clock every second
+            updateClock(); // Ensure the clock updates immediately on load
+        };
+    } else {
+        console.log("Voices already loaded.");
+        setInterval(updateClock, 1000); // Update the clock every second
+        updateClock(); // Ensure the clock updates immediately on load
+    }
 };
 
 // Add event listener for user activation
@@ -69,8 +84,3 @@ document.getElementById('startButton').addEventListener('click', () => {
     console.log("Speech synthesis activated.");
     startClock();
 });
-
-// Ensure voices are loaded
-window.speechSynthesis.onvoiceschanged = () => {
-    console.log("Voices loaded.");
-};
