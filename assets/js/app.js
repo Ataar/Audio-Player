@@ -1,103 +1,86 @@
-// List of audio files
-const audioFiles = [
-        { audio: "1.mp3" },
-        { audio: "2.mp3" },
-        { audio: "5.mp3" },
-        { audio: "echo-of-tomorow-271362.mp3" },
-        { audio: "motivational-background-corporate-city-273359.mp3" },
-        { audio: "4.mp3" },
-        { audio: "3.mp3" },
-        { audio:'6.mp3'},
-        { audio:'7.mp3'},
-        { audio:'9.mp3'},
-        { audio:'videoplaybackmp4_2ORgXYtc.mp3'},
-        { audio:'11mp4_07o8CtYM.mp3'},
-];
+let lastAnnouncedMinute = null;
+let isActivated = false; // Track if user activation occurred
 
-const boxContainer = document.getElementById('box-container');
-audioFiles.forEach((audioSource, index) => {
-const wrapper = document.createElement('div');
-wrapper.style.textAlign = 'center'; 
-wrapper.style.marginBottom = '20px'; 
+const updateClock = () => {
+    const clock = document.getElementById('clock');
+    const now = new Date();
 
-   
-    const box = document.createElement('div');
-    box.classList.add('box');
-    box.style.backgroundColor = ["lightgray", "lightcoral", 'lightgreen', "lightblue", "GreenYellow",'#490a0a','pink','gray'
-   ,'#583d6c','#bb5f91','#141313','#11b072'][index] || 'lightgray';
-    box.style.width = '100px';
-    box.style.height = '100px'; 
-    box.style.margin = '0 auto';
-    box.style.display = 'flex';
-    box.style.justifyContent = 'center';
-    box.style.alignItems = 'center';
+    // Get the time
+    let hours = now.getHours();
+    const minutes = String(now.getMinutes()).padStart(2, '0');
+    const seconds = String(now.getSeconds()).padStart(2, '0');
 
-    
-    const icon = document.createElement('i');
-    icon.classList.add('fa-solid', 'fa-circle-play');
-    icon.style.fontSize = '32px';
-    icon.style.color = 'white';
-    icon.style.backgroundColor = 'black';
-    icon.style.borderRadius = '50px';
-    box.appendChild(icon);
+    // Determine AM or PM
+    const amPm = hours >= 12 ? 'PM' : 'AM';
 
-    box.addEventListener('click', () => {
-        toggleMusic(audioSource.audio, icon);
-    });
+    // Convert to 12-hour format
+    hours = hours % 12 || 12;
 
-    const downloadButton = document.createElement('a');
-    downloadButton.classList.add('downloadBtn')
-    downloadButton.href = audioSource.audio;
-    downloadButton.download = audioSource.audio.split('/').pop(); 
-    downloadButton.innerText = 'Download';
-    downloadButton.style.display = 'inline-block';
-    downloadButton.style.marginTop = '15px';
-    downloadButton.style.color = 'white';
-//    downloadButton.style.background = 'linear-gradient(to right,rgb(234, 178, 66),rgb(52, 5, 57)';
-    downloadButton.style.padding = '5px 10px';
-    downloadButton.style.borderRadius = '5px';
-    downloadButton.style.textDecoration = 'none';
-    downloadButton.style.fontFamily  = 'Elephant'
+    // Get the date
+    const day = String(now.getDate()).padStart(2, '0');
+    const month = String(now.getMonth() + 1).padStart(2, '0'); // Months are 0-based
+    const year = now.getFullYear();
 
-    wrapper.appendChild(box);
-    wrapper.appendChild(downloadButton);
+    // Get the day of the week
+    const daysOfWeek = ['रविवार', 'सोमवार', 'मंगलवार', 'बुधवार', 'गुरुवार', 'शुक्रवार', 'शनिवार'];
+    const dayOfWeek = daysOfWeek[now.getDay()]; // Get the current day of the week
 
-    boxContainer.appendChild(wrapper);
-});
+    // Display the time and date
+    clock.innerHTML = `
+        ${hours}:${minutes}:${seconds} <span class="am-pm">${amPm}</span><br>
+        ${dayOfWeek} ${day}/${month}/${year}
+    `;
 
-let currentPlayingAudio = null;
-let currentIcon = null;
-
-const toggleMusic = (audioPath, icon) => {
-    if (currentPlayingAudio && currentPlayingAudio.src !== new URL(audioPath, document.baseURI).href) {
-        currentPlayingAudio.pause();
-        if (currentIcon) {
-            currentIcon.classList.remove('fa-circle-pause');
-            currentIcon.classList.add('fa-circle-play');
-        }
-    }
-
-    let audioElement = currentPlayingAudio;
-
-    if (!audioElement || audioElement.src !== new URL(audioPath, document.baseURI).href) {
-        audioElement = new Audio(audioPath);
-        currentPlayingAudio = audioElement;
-        currentIcon = icon;
-        audioElement.addEventListener('ended', () => {
-            icon.classList.remove('fa-circle-pause');
-            icon.classList.add('fa-circle-play');
-        });
-    }
-
-    if (!audioElement.paused) {
-        audioElement.pause();
-        icon.classList.remove('fa-circle-pause');
-        icon.classList.add('fa-circle-play');
-    } else {
-        audioElement.play().catch(error => {
-            console.error("Error playing audio:", error);
-        });
-        icon.classList.remove('fa-circle-play');
-        icon.classList.add('fa-circle-pause');
+    // Announce time only at the start of a new minute if activated
+    const currentMinute = `${hours}:${minutes} ${amPm}`;
+    if (isActivated && seconds === "00" && lastAnnouncedMinute !== currentMinute) {
+        lastAnnouncedMinute = currentMinute;
+        announceTimeInHindi(hours, minutes, amPm, day, month, year, dayOfWeek);
     }
 };
+
+const announceTimeInHindi = (hours, minutes, amPm, day, month, year, dayOfWeek) => {
+    const amPmHindi = amPm === "AM" ? "सुबह के " : "शाम के ";
+    const message = `अभी वक्त हुआ है देखो ${hours}:${minutes} ${amPmHindi}. आज ${dayOfWeek} है और आज की तारीख है ${day}/${month}/${year}. आप इस नंबर पर संपर्क कर सकते हैं 7058804143. Thank You!`;
+    const speech = new SpeechSynthesisUtterance(message);
+
+    // Load voices and find a Hindi voice
+    const voices = window.speechSynthesis.getVoices();
+    const hindiVoice = voices.find(voice => voice.lang === 'hi-IN');
+
+    if (hindiVoice) {
+        speech.voice = hindiVoice;
+    } else {
+        console.error("Hindi voice not found. Using default voice.");
+    }
+
+    // Set speech properties
+    speech.lang = 'hi-IN';
+    speech.rate = 1;
+    speech.pitch = 1;
+
+    // Speak the message
+    window.speechSynthesis.speak(speech);
+};
+
+const startClock = () => {
+    // Ensure voices are loaded before starting announcements
+    if (window.speechSynthesis.getVoices().length === 0) {
+        window.speechSynthesis.onvoiceschanged = () => {
+            console.log("Voices loaded.");
+            setInterval(updateClock, 1000); // Update the clock every second
+            updateClock(); // Ensure the clock updates immediately on load
+        };
+    } else {
+        console.log("Voices already loaded.");
+        setInterval(updateClock, 1000); // Update the clock every second
+        updateClock(); // Ensure the clock updates immediately on load
+    }
+};
+
+// Add event listener for user activation
+document.getElementById('startButton').addEventListener('click', () => {
+    isActivated = true; // Allow announcements after activation
+    console.log("Speech synthesis activated.");
+    startClock();
+});

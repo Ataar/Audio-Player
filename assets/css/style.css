@@ -2,86 +2,134 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 110vh;
+    height: 100vh;
     margin: 0;
+    font-family: Arial, sans-serif;
+    /* background: linear-gradient(135deg, #0b020b, #040404); */
+    /* color: white; */
 }
 
-#box-container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 90px;
-    /* Reduce space between boxes */
-    width: 80%;
-    margin-top: 2rem;
-
+.clock {
+    font-size: 60px;
+    font-weight: bold;
+    /* background: rgba(10, 10, 10, 0.3); */
+    background-color: black;
+    color: white;
+    padding: 20px 40px;
+    border-radius: 10px;
+    /* box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); */
+    text-align: center;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
 
-.box {
-    display: flex;
+@media (min-width: 320px) and (max-width: 768px) {
+    button#startButton {
+        font-size: 15px;
+        background-color: rgb(4, 52, 4);
+        color: white;
+        margin: 4.8rem auto 0;
+        width: 223px;
+        max-width: 100%;
+        /* display: block; */
+        text-align: center;
+        cursor: pointer;
+        border-radius: 30px;
+
+    }
+
+    .clock {
+        font-size: 27px;
+        padding: -2px 2px -2px 2px;
+    }
+
+    .am-pm {
+        font-size: 0.4em;
+        vertical-align: top;
+    }
+}
+
+
+.col-md-4 {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    margin-top: 4rem;
+}
+
+
+
+@media (min-width: 769px) {
+    button#startButton {
+        background-color: rgb(41, 4, 43);
+        color: white;
+        border-radius: 30px;
+        /* margin-top: 10rem; */
+        margin: 10rem auto 0;
+        width: 60%;
+
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* body { */
+/* display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 16px;
-    cursor: pointer;
-    border-radius: 8px;
-}
+    height: 100vh;
+    margin: 0;
+    font-family: Arial, sans-serif; */
+/* background: linear-gradient(135deg, #460447, #00f2fe); */
+/* background: linear-gradient(135deg, #0b020b, #040404);
+    color: white; */
 
-.box:hover {
-    transform: scale(1.1);
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-}
+/* } */
 
-/* Responsive adjustments for medium screens */
-@media (max-width: 767px) {
-
-
-    #box-container {
-        height: 10px;
-        /* Adjust for better responsiveness */
-        margin-top: 5rem;
-        /* Reduce top margin */
-    }
-
-
-}
-
-@media (min-width: 768px) and (max-width: 1023px) {
-    #box-container {
-        gap: 35px;
-        /* Smaller gap for medium screens */
-    }
-
-
-}
-
-/* Responsive adjustments for small screens */
-@media (max-width: 480px) {
-    #box-container {
-        gap: 45px;
-        margin-top: -26rem;
-
-
-        /* Even smaller gap for small screens */
-    }
-
-
-}
-
-.headClass {
-    position: absolute;
-    top: 0;
-    padding: 5px;
-    background-color: rgb(59, 48, 48);
-    width: 100%;
+/* .clock {
+    font-size: 60px;
+    font-weight: bold;
+    background: rgba(0, 0, 0, 0.3);
+    padding: 20px 40px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
     text-align: center;
-    color: white;
-    font-family: Georgia;
-}
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+} */
 
-.downloadBtn {
-    background-color: rgb(55, 6, 6);
-}
+/* .am-pm { */
+/* font-size: 0.5em; */
+/* Makes AM/PM half the size of the clock text */
+/* vertical-align: top; */
+/* Aligns AM/PM with the top of the clock text */
+/* } */
 
-.downloadBtn:hover {
-    background-color: rgb(13, 239, 119);
-}
+/* @media(min-width : 320px) and (max-width:425px) {
+    .clock {
+        font-size: 25px;
+        padding: 10px
+    }
+} */
