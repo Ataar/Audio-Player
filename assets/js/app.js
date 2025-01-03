@@ -1,17 +1,17 @@
 // List of audio files
 const audioFiles = [
-        { audio: "1.mp3" },
-        { audio: "2.mp3" },
-        { audio: "5.mp3" },
-        { audio: "echo-of-tomorow-271362.mp3" },
-        { audio: "motivational-background-corporate-city-273359.mp3" },
+        { audio: "1mp4_rrv0wHLB.mp3" },
+        { audio: "2mp4_QNM1yUR5.mp3" },
+        { audio: "3_0b4KrBAO.mp3" },
         { audio: "4.mp3" },
-        { audio: "3.mp3" },
-        { audio:'6.mp3'},
-        { audio:'7.mp3'},
-        { audio:'9.mp3'},
-        { audio:'videoplaybackmp4_2ORgXYtc.mp3'},
-        { audio:'11mp4_07o8CtYM.mp3'},
+        { audio: "5mp4_kAPP35NP.mp3" },
+        { audio: "6ya_lili_yalila.mp3" },
+        { audio: "7vande_mataram.mp3" },
+        { audio:'8mp4_FEf7X0hs.mp3'},
+        { audio:'9mp4_mIWlqV9m.mp3'},
+        { audio:'10mp4_FNJ9lgxA.mp3'},
+        { audio:'11.mp3'},
+        { audio:'12mp4_pIEz2h5t.mp3'},
 ];
 
 const boxContainer = document.getElementById('box-container');
